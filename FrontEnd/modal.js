@@ -1,10 +1,13 @@
-const btnModify = document.querySelector (".btn_modify");
+const btnModify = document.querySelector (".div_title_and_btn_modify .btn_modify");
 const modal = document.querySelector (".modal");
 const selectionGallery = document.querySelector (".selection_gallery");
 const cross = document.querySelector (".modal .fa-xmark");
+const crossModal2 = document.querySelector (".modal_2 .fa-xmark");
 const displayGallery = document.querySelector (".gallery");
+const btnAddPicture = document.querySelector (".modal_portfolio .btn_Add_Picture");
+const modal2 = document.querySelector (".modal_2");
 
-// Fonction pour afficher la modal avec galerie photo et corbeille //
+// Fonction pour afficher la modale avec galerie photo et corbeille //
 async function displayModal () {
     const arrayWorks = await getWorks();
     
@@ -32,7 +35,7 @@ async function displayModal () {
 }
 displayModal ();
 
-// Fonction pour fermer la modal //
+// Fonction pour fermer la modale //
 async function closeModal () {
     modal.addEventListener ("click", (event) => {
         if (event.target.className == "modal") {
@@ -45,3 +48,25 @@ async function closeModal () {
 }
 closeModal();
 
+// Fonction pour ouverture de la 2ème modale //
+async function displayModalAddPicture () {
+    btnAddPicture.addEventListener ("click", () => {
+        modal.style.display = "none";
+        modal2.style.display = "flex";
+
+    });
+}
+displayModalAddPicture();
+
+// Fonction pour fermer la 2ème modale //
+async function closeModal2 () {
+    modal2.addEventListener ("click", (event) => {
+        if (event.target.className == "modal_2") {
+            modal2.style.display = "none";
+        }
+    })
+    crossModal2.addEventListener ("click", () => {
+        modal2.style.display = "none";
+    })
+}
+closeModal2();
