@@ -10,8 +10,11 @@ const btnAddPicture = document.querySelector (".modal_portfolio .btn_Add_Picture
 // Variables 2ème modale //
 const crossModal2 = document.querySelector (".modal_2 .fa-xmark");
 const modal2 = document.querySelector (".modal_2");
+const iconVector = document.querySelector (".iconVector");
 const btnAddPictureModal2 = document.querySelector (".content_modal_add_picture .btn_add_picture");
+const textExtensionPhoto = document.querySelector (".text_Extension_Photo");
 const btnValidate = document.querySelector (".modal_add_picture .btn_validate");
+const arrowModal2 = document.querySelector (".modal_add_picture .fa-arrow-left");
 
 
 
@@ -19,33 +22,55 @@ const btnValidate = document.querySelector (".modal_add_picture .btn_validate");
 
 // Fonction pour afficher la modale avec galerie photo et corbeille //
 async function displayModal () {
-    const arrayWorks = await getWorks();
-    console.log(arrayWorks);
+    try {
+        const arrayWorks = await getWorks();
+        console.log(arrayWorks);
 
-    btnModify.addEventListener ("click", ()=> {
-        selectionGallery.innerHTML = "";
+        btnModify.addEventListener ("click", async ()=> {
+            selectionGallery.innerHTML = "";
 
-        arrayWorks.forEach(picture => {         
-            const figure = document.createElement("figure");
+            arrayWorks.forEach(picture => {         
+                const figure = document.createElement("figure");
 
-            const img = document.createElement("img");
-            img.src = picture.imageUrl;
+                const img = document.createElement("img");
+                img.src = picture.imageUrl;
 
-            const spanBin = document.createElement("span");
+                const spanBin = document.createElement("span");
 
-            const deletePicture = document.createElement("i");
-            deletePicture.classList.add("fa-solid", "fa-trash-can");
-            deletePicture.id = picture.id;
-                        
-            selectionGallery.appendChild(figure);
-            figure.appendChild(img);
-            figure.appendChild(spanBin);
-            spanBin.appendChild(deletePicture);           
-        });
-        modal.style.display = "flex";
-        deleteImg();      
-    }); 
-    
+                const deletePicture = document.createElement("i");
+                deletePicture.classList.add("fa-solid", "fa-trash-can");
+                deletePicture.id = picture.id;
+                            
+                selectionGallery.appendChild(figure);
+                figure.appendChild(img);
+                figure.appendChild(spanBin);
+                spanBin.appendChild(deletePicture);           
+            });
+
+    // Saisie du titre // 
+            const writeTitle = document.getElementById("title_form");      
+            writeTitle.addEventListener("input", (event) => {
+                const titlePicture = event.target.value;
+            });
+
+    // affichage de la liste déroulante des catégories//
+            const selectCategory = document.getElementById("category_form");
+            selectCategory.innerHTML = "";
+
+                const categories = await getCategories();
+                categories.forEach(category => {
+                    const option = document.createElement("option");
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    selectCategory.appendChild(option);
+                });
+                    
+            modal.style.display = "flex";
+            deleteImg();      
+        }); 
+    } catch (error) {
+        console.error("Une erreur s'est produite lors de la récupération des catégories :", error);
+    }
     
 }
 displayModal ();
@@ -92,15 +117,12 @@ function deleteImg() {
     });
 }
 
+
+
 // Fonction pour ajouter des images //
 function addPicture () {
     btnAddPictureModal2.addEventListener ("click", () => {
-        // Cacher les balises img, bouton et h3 //
-        const iconVector = document.querySelector (".iconVector");
-        iconVector.style.display = "none";
-        btnAddPictureModal2.style.display = "none";
-        const textExtensionPhoto = document.querySelector (".text_Extension_Photo");
-        textExtensionPhoto.style.display = "none";
+        
 
         // Création d'une balise input de type file, pour insérer la photo en prévisualisation //
         const fileInput = document.createElement("input");
@@ -108,44 +130,37 @@ function addPicture () {
         fileInput.type = "file";
         fileInput.accept = "image/*";
         fileInput.style.display = "none";
-        fileInput.style.height = "20px";
         fileInput.click();
         
-        // Ajout d'un écouteur d'évènement si l'utilisateur annule son choix d'ajouter une photo : la balise input apparaît //
-        fileInput.addEventListener("cancel", () => {
-            fileInput.style.display = "flex";
-        })
-
-        // Ajout d'un écouteur d'évènement quand l'utilisateur choisit une nouvelle photo //
+       // Ajout d'un écouteur d'évènement quand l'utilisateur choisit une nouvelle photo //
         fileInput.addEventListener("change", () => {
             const file = fileInput.files[0];
 
         if (file) {
+            // Cacher les balises img, bouton et h3 //
+            iconVector.style.display = "none";
+            btnAddPictureModal2.style.display = "none";        
+            textExtensionPhoto.style.display = "none";
+
             const reader = new FileReader();
 
             reader.onload = function(event) {
             const previewImage = document.createElement("img");
             previewImage.src = event.target.result;
-            previewImage.style.width = "auto%";
+            previewImage.style.width = "auto";
             previewImage.style.height = "100%";
             const containerPreviewImage = document.querySelector(".content_modal_add_picture");
-            containerImgPreview.appendChild(previewImage);
-            }
+            containerPreviewImage.appendChild(previewImage);
+            };
             reader.readAsDataURL(file);
             }
         });
-    
-
-
-        const containerImgPreview = document.querySelector (".content_modal_add_picture");
-        containerImgPreview.appendChild(fileInput);
-        console.log(fileInput);
-    })
+   })
 }
 addPicture();
 
 // Fonction pour fermer la 2ème modale //
-async function closeModal2 () {
+function closeModal2 () {
     modal2.addEventListener ("click", (event) => {
         if (event.target.className == "modal_2") {
             modal2.style.display = "none";
@@ -156,3 +171,13 @@ async function closeModal2 () {
     })
 }
 closeModal2();
+
+// Fonction pour revenir à la modale précédente au clic sur la flèche //
+function returnModal1 () {
+    arrowModal2.addEventListener ("click", () => {
+        modal2.style.display = "none";
+        displayModal();
+        modal.style.display = "flex";
+    });
+}
+returnModal1();
