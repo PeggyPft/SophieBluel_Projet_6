@@ -24,7 +24,6 @@ const arrowModal2 = document.querySelector (".modal_add_picture .fa-arrow-left")
 async function displayModal () {
     try {
         const arrayWorks = await getWorks();
-        console.log(arrayWorks);
 
         btnModify.addEventListener ("click", async ()=> {
             selectionGallery.innerHTML = "";
@@ -106,14 +105,29 @@ displayModalAddPicture();
 // Fonction pour supprimer une photo dans la modale //
 function deleteImg() {
     const allBin = document.querySelectorAll (".fa-trash-can");
-
     allBin.forEach(bin => {
         bin.addEventListener ("click", () => {
-            // Récupération de l'élément parent //
+            const binId = bin.id ;
+            const token = window.localStorage.getItem("token");
+            fetch(`http://localhost:5678/api/works/${binId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(response => {
+            if(!response.ok) {
+                throw new Error("delete ne fonctionne pas");
+            }
+            // Supprimer l'image de la modale //
             const parentImg = bin.closest("figure");
-            // suppression de l'élément parent //
             parentImg.remove();
-        });
+
+            displayPortfolio();     
+        })
+        
+    })  
     });
 }
 
