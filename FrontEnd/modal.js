@@ -6,6 +6,8 @@ const selectionGallery = document.querySelector (".selection_gallery");
 const cross = document.querySelector (".modal .fa-xmark");
 const displayGallery = document.querySelector (".gallery");
 const btnAddPicture = document.querySelector (".modal_portfolio .btn_Add_Picture");
+const writeTitle = document.getElementById("title_form");  
+const selectCategory = document.getElementById("category_form");
 
 // Variables 2ème modale //
 const crossModal2 = document.querySelector (".modal_2 .fa-xmark");
@@ -47,13 +49,13 @@ async function displayModal () {
             });
 
     // Saisie du titre // 
-            const writeTitle = document.getElementById("title_form");      
+                
             writeTitle.addEventListener("input", (event) => {
                 const titlePicture = event.target.value;
             });
 
     // affichage de la liste déroulante des catégories//
-            const selectCategory = document.getElementById("category_form");
+            
             selectCategory.innerHTML = "";
 
                 const categories = await getCategories();
@@ -73,6 +75,37 @@ async function displayModal () {
     
 }
 displayModal ();
+
+
+// Fonction pour supprimer une photo dans la modale //
+function deleteImg() {
+    const allBin = document.querySelectorAll (".fa-trash-can");
+    allBin.forEach(bin => {
+        bin.addEventListener ("click", () => {
+            const binId = bin.id;
+            const token = window.localStorage.getItem("token");
+            fetch(`http://localhost:5678/api/works/${binId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(response => {
+            if(!response.ok) {
+                throw new Error("delete ne fonctionne pas");
+            }
+            // Supprimer l'image de la modale //
+            const parentImg = bin.closest("figure");
+            parentImg.remove();
+
+            displayPortfolio();     
+        })
+        
+    })  
+    });
+}
+
 
 // Fonction pour fermer la modale //
 async function closeModal () {
@@ -102,36 +135,6 @@ async function displayModalAddPicture () {
 displayModalAddPicture();
 
 
-// Fonction pour supprimer une photo dans la modale //
-function deleteImg() {
-    const allBin = document.querySelectorAll (".fa-trash-can");
-    allBin.forEach(bin => {
-        bin.addEventListener ("click", () => {
-            const binId = bin.id ;
-            const token = window.localStorage.getItem("token");
-            fetch(`http://localhost:5678/api/works/${binId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            }
-        })
-        .then(response => {
-            if(!response.ok) {
-                throw new Error("delete ne fonctionne pas");
-            }
-            // Supprimer l'image de la modale //
-            const parentImg = bin.closest("figure");
-            parentImg.remove();
-
-            displayPortfolio();     
-        })
-        
-    })  
-    });
-}
-
-
 
 // Fonction pour ajouter des images //
 function addPicture () {
@@ -149,6 +152,7 @@ function addPicture () {
        // Ajout d'un écouteur d'évènement quand l'utilisateur choisit une nouvelle photo //
         fileInput.addEventListener("change", () => {
             const file = fileInput.files[0];
+            console.log(file);
 
         if (file) {
             // Cacher les balises img, bouton et h3 //
@@ -158,20 +162,34 @@ function addPicture () {
 
             const reader = new FileReader();
 
-            reader.onload = function(event) {
-            const previewImage = document.createElement("img");
-            previewImage.src = event.target.result;
-            previewImage.style.width = "auto";
-            previewImage.style.height = "100%";
-            const containerPreviewImage = document.querySelector(".content_modal_add_picture");
-            containerPreviewImage.appendChild(previewImage);
-            };
-            reader.readAsDataURL(file);
-            }
+                reader.onload = function(event) {
+                const previewImage = document.createElement("img");
+                previewImage.src = event.target.result;
+                previewImage.style.width = "auto";
+                previewImage.style.height = "100%";
+                const containerPreviewImage = document.querySelector(".content_modal_add_picture");
+                containerPreviewImage.appendChild(previewImage);
+                };                
+                reader.readAsDataURL(file);            
+            }      
+            imageValidationCondition(fileInput);
         });
    })
 }
 addPicture();
+
+// Fonction pour modifier la couleur du bouton "valider" lors de l'ajout d'une photo //
+function imageValidationCondition (fileInput) {
+    const titleValue = writeTitle;
+    
+    document.getElementById("title_form").value;
+    titleValue.addEventListener("change", () => {
+        if (fileInput.files[0] && titleValue.value !=="") {                   
+            btnValidate.disabled = false;
+            btnValidate.style.backgroundColor = "rgb(29, 97, 84)";             
+        }   
+    })
+}
 
 // Fonction pour fermer la 2ème modale //
 function closeModal2 () {
