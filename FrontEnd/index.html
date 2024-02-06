@@ -78,7 +78,30 @@
 				<h1 class="title_Modal">Galerie photo</h1>
 				<div class="selection_gallery"></div>
 				<div class="line"></div>
-				<button class="btn_Modal">Ajouter une photo</button>
+				<button class="btn_Modal btn_Add_Picture">Ajouter une photo</button>
+			</div>
+		</aside>
+		<aside class="modal_2">
+			<div class="modal_add_picture">
+				<span>
+					<i class="fa-solid fa-arrow-left"></i>
+					<i class="fa-solid fa-xmark"></i>
+				</span>
+				<h1 class="title_Modal">Ajout photo</h1>
+				<div class="content_modal_add_picture">
+					<img class="iconVector" src="./assets/icons/Vector.svg" alt="icône photo à ajouter">
+					<button class="btn_add_picture">+ Ajouter photo</button>
+					<h3 class="text_Extension_Photo">jpg, png : 4mo max</h3>
+				</div>
+				<form action="submit">
+					<label for="title_form">Titre</label>
+					<input type="text" id="title_form">
+
+					<label for="category_form">Catégorie</label>
+					<select name="category_form" id="category_form"></select>
+				</form>
+				<div class="line"></div>
+				<button type=submit class="btn_Modal btn_validate">Valider</button>
 			</div>
 		</aside>
 	</main>
