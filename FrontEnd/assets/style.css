@@ -323,16 +323,18 @@ header a:hover {
     align-items: center;
 }
 
+.topBar span {
+	font-family: Work Sans;
+	font-size: 16px;
+	font-weight: 400;
+	margin-left: 5px;
+}
+
 .fa-pen-to-square {
 	color: rgba(255, 255, 255, 1);		
 }
 
-.modal_portfolio span {
-	font-family: Work Sans;
-	font-weight: 400;
-	font-size: 16px;
-	margin-left: 15px;
-}
+/* Affichage 1ère modale */
 
 .modal {
 	display: none;
@@ -356,6 +358,13 @@ header a:hover {
 	border-radius: 10px;
 	width: 630px;
 	height: 688px;
+}
+
+.modal_portfolio span {
+	font-family: Work Sans;
+	font-weight: 400;
+	font-size: 16px;
+	margin-left: 15px;
 }
 
 .fa-xmark {
@@ -412,7 +421,7 @@ figure i {
 
 .line {
 	border: 1px solid rgba(179, 179, 179, 1);
-	width: 50%;
+	width: 420px;
 }
 
 .btn_Modal {
@@ -428,3 +437,92 @@ figure i {
 	font-size: 14px;	
 }
 
+/* Affichage 2ème modale */
+.modal_2 {
+	display: none;
+	justify-content: center;
+	align-items: center;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.3);
+	top : 0;
+	left: 0;	
+	width: 100%;
+	height: 100%;
+}
+
+.modal_add_picture{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	position: relative;
+	background-color: rgba(255, 255, 255, 1);
+	border-radius: 10px;
+	width: 630px;
+	height: 688px;
+}
+
+.fa-arrow-left {
+	position: absolute;
+	top : 20px;
+	left: 20px;
+	cursor: pointer;
+}
+
+.content_modal_add_picture {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(232, 241, 246, 1);
+	border-radius: 3px;
+	gap: 10px;
+	width: 420px;
+	height: 170px;
+}
+
+.iconVector {
+	width: 76px;
+	height: 76px;
+}
+
+.btn_add_picture {
+	border: none;
+	background-color: rgb(203, 214, 220);
+	color: rgb(48, 102, 133);
+	font-size: 14px;
+	font-weight: 500;
+	border-radius: 50px;
+	width: 180px;
+	height: 36px;
+}
+
+.previewPicture {
+	width: 114px;
+	height: 20px;
+    overflow: hidden;    
+    background-color: rgba(232, 241, 246, 1);
+}
+
+.modal_add_picture form {
+	display: flex;
+    flex-direction: column;
+    gap: 15px;
+	width: 420px;
+		
+}
+
+.modal_add_picture input {
+	border: transparent;
+	background-color: rgba(255, 255, 255, 1);
+	box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2);
+	height: 50px;
+	
+}
+
+.modal_add_picture select {
+	border: transparent;
+	background-color: rgba(255, 255, 255, 1);
+	box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2);
+	height: 50px;
+}
