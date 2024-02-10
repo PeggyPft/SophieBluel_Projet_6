@@ -93,12 +93,12 @@
 					<button class="btn_add_picture">+ Ajouter photo</button>
 					<h3 class="text_Extension_Photo">jpg, png : 4mo max</h3>
 				</div>
-				<form action="submit">
+				<form action="submit" class="form_Modal2">
 					<label for="title_form">Titre</label>
-					<input type="text" id="title_form">
+					<input name="title" type="text" id="title_form" required>
 
 					<label for="category_form">Catégorie</label>
-					<select name="category_form" id="category_form"></select>
+					<select name="category" id="category_form" required></select>
 				</form>
 				<div class="line"></div>
 				<button type=submit class="btn_Modal btn_validate">Valider</button>

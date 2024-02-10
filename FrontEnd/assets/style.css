@@ -473,6 +473,7 @@ figure i {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	position: relative;
 	align-items: center;
 	background-color: rgba(232, 241, 246, 1);
 	border-radius: 3px;
@@ -497,7 +498,15 @@ figure i {
 	height: 36px;
 }
 
+input#file_form {
+    height: 19px;
+}
+
 .previewPicture {
+	position: absolute;
+	cursor: pointer;
+	top: 253px;
+    left: 261px;
 	width: 114px;
 	height: 20px;
     overflow: hidden;    

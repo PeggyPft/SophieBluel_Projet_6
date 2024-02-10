@@ -10,6 +10,8 @@ const writeTitle = document.getElementById("title_form");
 const selectCategory = document.getElementById("category_form");
 
 // Variables 2ème modale //
+const containerModalAddPicture = document.querySelector(".content_modal_add_picture");
+const formModal2 = document.querySelector(".form_Modal2");
 const crossModal2 = document.querySelector (".modal_2 .fa-xmark");
 const modal2 = document.querySelector (".modal_2");
 const iconVector = document.querySelector (".iconVector");
@@ -17,6 +19,7 @@ const btnAddPictureModal2 = document.querySelector (".content_modal_add_picture 
 const textExtensionPhoto = document.querySelector (".text_Extension_Photo");
 const btnValidate = document.querySelector (".modal_add_picture .btn_validate");
 const arrowModal2 = document.querySelector (".modal_add_picture .fa-arrow-left");
+const previewImage = document.createElement("img");
 
 
 
@@ -138,21 +141,28 @@ displayModalAddPicture();
 
 // Fonction pour ajouter des images //
 function addPicture () {
-    btnAddPictureModal2.addEventListener ("click", () => {
-        
-
+    btnAddPicture.addEventListener ("click", () => {
+        const retour = true;
+        console.log("je clique sur le bouton");
         // Création d'une balise input de type file, pour insérer la photo en prévisualisation //
         const fileInput = document.createElement("input");
         fileInput.classList.add("previewPicture");
+        const fileLabel = document.createElement("label");
+        fileLabel.for = "file_form";
+        fileInput.id = "file_form";
+        fileInput.name = "image";
         fileInput.type = "file";
         fileInput.accept = "image/*";
-        fileInput.style.display = "none";
-        fileInput.click();
+        fileInput.style.opacity = "0";
+        fileInput.style.cursor = "pointer";
         
+        
+        formModal2.appendChild(fileInput);
+        // containerModalAddPicture.appendChild(fileInput);
+
        // Ajout d'un écouteur d'évènement quand l'utilisateur choisit une nouvelle photo //
         fileInput.addEventListener("change", () => {
             const file = fileInput.files[0];
-            console.log(file);
 
         if (file) {
             // Cacher les balises img, bouton et h3 //
@@ -163,33 +173,66 @@ function addPicture () {
             const reader = new FileReader();
 
                 reader.onload = function(event) {
-                const previewImage = document.createElement("img");
+                
+                previewImage.classList.add ("photoLoad");
                 previewImage.src = event.target.result;
                 previewImage.style.width = "auto";
                 previewImage.style.height = "100%";
-                const containerPreviewImage = document.querySelector(".content_modal_add_picture");
+                const containerPreviewImage = document.querySelector(".content_modal_add_picture");                
                 containerPreviewImage.appendChild(previewImage);
                 };                
                 reader.readAsDataURL(file);            
-            }      
-            imageValidationCondition(fileInput);
+            }    
+            
         });
-   })
+    })
+    return addPicture;
 }
 addPicture();
 
 // Fonction pour modifier la couleur du bouton "valider" lors de l'ajout d'une photo //
-function imageValidationCondition (fileInput) {
-    const titleValue = writeTitle;
+function imageValidationCondition () {
     
-    document.getElementById("title_form").value;
-    titleValue.addEventListener("change", () => {
-        if (fileInput.files[0] && titleValue.value !=="") {                   
+    
+    formModal2.addEventListener("input", () => {
+        const inputFile = document.querySelector(".previewPicture");    
+        console.log(inputFile);
+        if (inputFile.files.length !== 0 && writeTitle.value !== "") {   
+                           
             btnValidate.disabled = false;
-            btnValidate.style.backgroundColor = "rgb(29, 97, 84)";             
-        }   
+            btnValidate.style.backgroundColor = "rgb(29, 97, 84)";           
+            console.log("vert");
+                 
+        }   else {
+            btnValidate.disabled = true;
+            btnValidate.style.backgroundColor = "rgb(167, 167, 167)";
+            console.log("gris");
+            
+        }
+    })
+   
+}
+imageValidationCondition();
+
+// Fonction pour valider le choix de la photo et l'ajout au portofolio //
+function btnValidateChoiceImage () {
+    
+    btnValidate.addEventListener("click", () => {
+        if (btnValidate.style.backgroundColor === "rgb(29, 97, 84)" ){
+            return console.log("Condition réussie");
+        } else {
+            
+            console.log("condition non remplie");
+
+        }
     })
 }
+btnValidateChoiceImage();
+
+
+
+
+
 
 // Fonction pour fermer la 2ème modale //
 function closeModal2 () {
