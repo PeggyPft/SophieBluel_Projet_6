@@ -219,7 +219,49 @@ function btnValidateChoiceImage () {
     
     btnValidate.addEventListener("click", () => {
         if (btnValidate.style.backgroundColor === "rgb(29, 97, 84)" ){
-            return console.log("Condition réussie");
+            const fileInput = document.querySelector(".previewPicture");
+            const file = fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append("image", file);
+            formData.append("title", writeTitle.value);
+            formData.append("category", selectCategory.value);
+
+            const token = window.localStorage.getItem("token");
+            fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            })
+
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Echec de l'ajout de la photo");
+                }
+                return response.json();
+            })
+
+            .then(data => {
+                console.log("Photo ajoutée avec succès:", data);
+            
+
+            // Fermer la 2ème modale après avoir ajouté la photo //
+            modal2.style.display = "none";
+
+            // Ajouter la photo à la galerie //
+            const figure = document.createElement("figure");
+            const img = document.createElement("img");
+            img.src = data.imageUrl;
+            const figcaption = document.createElement("figcaption");
+            figcaption.textContent = data.title;
+            
+            displayGallery.appendChild(figure);
+            figure.appendChild(img);
+            figure.appendChild(figcaption);
+        })
+
         } else {
             
             console.log("condition non remplie");
