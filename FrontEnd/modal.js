@@ -254,17 +254,14 @@ function btnValidateChoiceImage () {
             const figure = document.createElement("figure");
             const img = document.createElement("img");
             img.src = data.imageUrl;
+            const figcaption = document.createElement("figcaption");
+            figcaption.textContent = data.title;
 
-            const spanBin = document.createElement("span");
-            const deletePicture = document.createElement("i");
-            deletePicture.classList.add("fa-solid", "fa-trash-can");
-            deletePicture.id = data.id;
-
-            spanBin.appendChild(deletePicture);
+            displayGallery.appendChild(figure);
             figure.appendChild(img);
-            figure.appendChild(spanBin);
-            selectionGallery.appendChild(figure);
+            figure.appendChild(figcaption);
 
+            displayModal();
         })
 
         } else {
