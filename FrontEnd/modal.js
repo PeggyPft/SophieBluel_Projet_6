@@ -143,7 +143,6 @@ displayModalAddPicture();
 function addPicture () {
     btnAddPicture.addEventListener ("click", () => {
         const retour = true;
-        console.log("je clique sur le bouton");
         // Création d'une balise input de type file, pour insérer la photo en prévisualisation //
         const fileInput = document.createElement("input");
         fileInput.classList.add("previewPicture");
@@ -195,18 +194,15 @@ function imageValidationCondition () {
     
     
     formModal2.addEventListener("input", () => {
-        const inputFile = document.querySelector(".previewPicture");    
-        console.log(inputFile);
+        const inputFile = document.querySelector(".previewPicture");
         if (inputFile.files.length !== 0 && writeTitle.value !== "") {   
                            
             btnValidate.disabled = false;
-            btnValidate.style.backgroundColor = "rgb(29, 97, 84)";           
-            console.log("vert");
+            btnValidate.style.backgroundColor = "rgb(29, 97, 84)";
                  
         }   else {
             btnValidate.disabled = true;
             btnValidate.style.backgroundColor = "rgb(167, 167, 167)";
-            console.log("gris");
             
         }
     })
@@ -243,10 +239,8 @@ function btnValidateChoiceImage () {
                 return response.json();
             })
 
-            .then(data => {
-                console.log("Photo ajoutée avec succès:", data);
+            .then(data => {             
             
-
             // Fermer la 2ème modale après avoir ajouté la photo //
             modal2.style.display = "none";
 
@@ -263,10 +257,6 @@ function btnValidateChoiceImage () {
 
             displayModal();
         })
-
-        } else {
-            
-            console.log("condition non remplie");
 
         }
     })
